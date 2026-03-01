@@ -1,14 +1,16 @@
 import matplotlib.pyplot as plt
 import numpy as np
 names = []
+id = []
 total_value = []
 try:
     with open(r"c:\works\dataprices.txt", "r") as f:
         for line in f:
             parts = line.split()
-            if len(parts) >= 3:
+            if len(parts) >= 4:
                 names.append(parts[0])
-                total_value.append(float(parts[1]) * float(parts[2]))
+                id.append(float(parts[1]))
+                total_value.append(float(parts[2]) * float(parts[3]))
     plt.figure(figsize=(11, 8))
     colors = plt.cm.plasma(np.linspace(0, 0.8, len(names)))
     bars = plt.barh(names, total_value, color=colors)

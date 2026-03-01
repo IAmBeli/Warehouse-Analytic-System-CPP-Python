@@ -9,6 +9,7 @@ class Part{
         double price;
         int quantity;
     public:
+    int getId(){return id;}
     int getQuantity(){return quantity;}
     std::string getName(){return name;}
     double getPrice(){return price;}
@@ -34,10 +35,12 @@ int main(){
     std::ifstream inFile("c:\\works\\dataprices.txt");
     if(inFile.is_open()){
         std::string name;
+        int id;
         double price;
         int quantity;
-        while(inFile >> name >> price >> quantity){
-            warehouse.push_back(Part(name, 0, price, quantity));
+        while(inFile >> name >> id >> price >> quantity){
+            if(name. empty()){continue;}
+            warehouse.push_back(Part(name, id, price, quantity));
         }
     }
     inFile.close();
@@ -81,10 +84,10 @@ int main(){
     for(Part &p : warehouse){
         p.display();
     }
-    std::ofstream outFile("dataprices.txt");
+    std::ofstream outFile("c:\\works\\dataprices.txt");
     if(outFile.is_open()){
         for(Part &p : warehouse){
-            outFile << p.getName() << " " << p.getPrice() << " " << p.getQuantity() << '\n';
+            outFile << p.getName() << " " << p.getId() << " " << p.getPrice() << " " << p.getQuantity() << '\n';
         }
     }
     outFile.close();
