@@ -28,6 +28,17 @@ class Part{
 };
 int main(){
     std::vector<Part> warehouse;
+    std::ifstream inFile("c:\\works\\dataprices.txt");
+    if(inFile.is_open()){
+        std::string name;
+        double price;
+        int quantity;
+        while(inFile >> name >> price >> quantity){
+            warehouse.push_back(Part(name, 0, price, quantity));
+        }
+    }
+    inFile.close();
+    std::cout << "Successfully loaded: " << warehouse.size() << " items from the file.\n";
     std::string UName;
     int UId;
     double UPrice;
@@ -49,7 +60,6 @@ int main(){
 
     for(Part &p : warehouse){
         p.display();
-        //p.sell(3);
     }
     std::ofstream outFile("dataprices.txt");
     if(outFile.is_open()){
@@ -60,6 +70,6 @@ int main(){
     outFile.close();
     if(outFile.is_open()){
         std::cout << "Error while saving data to dataprices.txt" << std::endl;
-    }else{std::cout << "Data is saved in dataprices.txt" << std::endl;}
+    }else{std::cout << "All data(old + new) is saved in dataprices.txt" << std::endl;}
     return 0;
 }
