@@ -13,6 +13,9 @@ class Part{
     std::string getName(){return name;}
     double getPrice(){return price;}
     Part(std::string name, int id, double price, int quantity) : name(name), id(id), price(price), quantity(quantity){}
+    void addQuantity(int amount){
+        quantity += amount;
+    }
     void sell(int amount){
         if(quantity >= amount){
             quantity -= amount;
@@ -47,13 +50,30 @@ int main(){
     do{
         std::cout << "Print name of the part: " << '\n';
         std::cin >> UName;
-        std::cout << "Print ID of " << UName << ": " << '\n';
+        bool found = false;
+        for(Part &p : warehouse){
+            if(p.getName() == UName){
+                found = true;
+                std::cout << "Found existing part! Current quantity is: " << p.getQuantity() << '\n';
+                std::cout << "Do you want to add more to already existing quantity?(Y/N)?: ";
+                char answer;
+                std::cin >> answer;
+                if(answer == 'Y' || answer == 'y'){
+                    std::cout << "Input amount to add: ";
+                    int amount;
+                    std::cin >> amount;
+                    p.addQuantity(amount);
+                }
+                break;
+            }
+        }
+        if(!found){std::cout << "Print ID of " << UName << ": " << '\n';
         std::cin >> UId;
         std::cout << "Print price of " << UName << ": " << '\n';
         std::cin >> UPrice;
         std::cout << "Print quantity of " << UName << ": " << '\n';
         std::cin >> UQuantity;
-        warehouse.push_back(Part(UName, UId, UPrice, UQuantity));
+        warehouse.push_back(Part(UName, UId, UPrice, UQuantity));}
         std::cout << "Do you want to input another detail(Y/N)?: ";
         std::cin >> choice;
     }while(choice == 'Y' || choice == 'y');
