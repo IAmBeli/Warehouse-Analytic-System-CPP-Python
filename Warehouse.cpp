@@ -46,17 +46,17 @@ int main(){
     inFile.close();
     std::cout << "Successfully loaded: " << warehouse.size() << " items from the file.\n";
     std::string UName;
-    int UId;
-    double UPrice;
-    int UQuantity;
     char choice;
-    do{
+    std::cout << "Do you want to add new part or find one by id?(Add/Find): ";
+    std::string answer;
+    std::cin >> answer;
+    if(answer == "Add" || answer == "add" || answer == "ADD"){do{
         std::cout << "Print name of the part: " << '\n';
         std::cin >> UName;
-        bool found = false;
+        bool foundName = false;
         for(Part &p : warehouse){
             if(p.getName() == UName){
-                found = true;
+                foundName = true;
                 std::cout << "Found existing part! Current quantity is: " << p.getQuantity() << '\n';
                 std::cout << "Do you want to add more to already existing quantity?(Y/N)?: ";
                 char answer;
@@ -70,7 +70,11 @@ int main(){
                 break;
             }
         }
-        if(!found){std::cout << "Print ID of " << UName << ": " << '\n';
+        if(!foundName){
+        int UId;
+        double UPrice;
+        int UQuantity;
+        std::cout << "Print ID of " << UName << ": " << '\n';
         std::cin >> UId;
         std::cout << "Print price of " << UName << ": " << '\n';
         std::cin >> UPrice;
@@ -79,11 +83,34 @@ int main(){
         warehouse.push_back(Part(UName, UId, UPrice, UQuantity));}
         std::cout << "Do you want to input another detail(Y/N)?: ";
         std::cin >> choice;
-    }while(choice == 'Y' || choice == 'y');
-
-    for(Part &p : warehouse){
+    }while(choice == 'Y' || choice == 'y');}else if(answer == "Find" || answer == "find" || answer == "FIND"){
+        char answer1;
+        do{
+        bool foundId = false;
+        std::cout << "Please enter ID of the part you want to find: ";
+        int SId;
+        std::cin >> SId;
+        for(Part &p : warehouse){
+            if(SId == p.getId()){
+                foundId = true;
+                std::cout << p.getName() << '\n';
+                std::cout << p.getId() << '\n';
+                std::cout << p.getPrice() << '\n';
+                std::cout <<p.getQuantity() << '\n';
+            }
+        }
+        if(!foundId){
+            std::cout << "This ID is not defined yet." << '\n';
+        }
+        std::cout << "Do you want to continue searching?(Y/N): ";
+        std::cin >> answer1;
+        }while(answer1 == 'Y' || answer1 == 'y');}
+    std::cout << "Do you want to check already existing options?(Y/N): ";
+    char answer2;
+    std::cin >> answer2;
+    if(answer2 == 'Y' || answer2 == 'y'){for(Part &p : warehouse){
         p.display();
-    }
+    }}
     std::ofstream outFile("c:\\works\\dataprices.txt");
     if(outFile.is_open()){
         for(Part &p : warehouse){
